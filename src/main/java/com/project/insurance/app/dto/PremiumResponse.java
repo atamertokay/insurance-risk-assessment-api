@@ -1,7 +1,9 @@
 package com.project.insurance.app.dto;
 
 import com.project.insurance.app.model.RiskLevel;
+import lombok.Data;
 
+@Data
 public class PremiumResponse {
     private Integer riskScore;
 
@@ -19,15 +21,5 @@ public class PremiumResponse {
         this.monthlyPremium = monthlyPremium;
     }
 
-    public Double getMonthlyPremium() {
-        return monthlyPremium;
-    }
 
-    public RiskLevel getRiskLevel() {
-        return riskLevel;
-    }
-
-    public Integer getRiskScore() {
-        return riskScore;
-    }
 }
