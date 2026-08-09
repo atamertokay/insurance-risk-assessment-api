@@ -1,6 +1,7 @@
 package com.project.insurance.app.mapper;
 
 
+import com.project.insurance.app.dto.RiskDetailResponse;
 import com.project.insurance.app.dto.RiskRequest;
 import com.project.insurance.app.dto.RiskSummaryResponse;
 import com.project.insurance.app.entity.InsuranceRequirements;
@@ -19,6 +20,7 @@ public interface RiskMapper {
     @Mapping(target = "bmi", source = "bmi")
     RiskSummaryResponse toSummary(InsuranceRequirements entity);
 
-    List<RiskSummaryResponse> toSummaryList(
-            List<InsuranceRequirements> entities);
+    List<RiskSummaryResponse> toSummaryList(List<InsuranceRequirements> entities);
+
+    RiskDetailResponse toDetail(InsuranceRequirements entity);
 }

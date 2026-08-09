@@ -1,10 +1,6 @@
 package com.project.insurance.app.controller;
 
-import com.project.insurance.app.dto.PremiumResponse;
-import com.project.insurance.app.dto.RiskRequest;
-import com.project.insurance.app.dto.RiskResponse;
-import com.project.insurance.app.dto.RiskSummaryResponse;
-import com.project.insurance.app.entity.InsuranceRequirements;
+import com.project.insurance.app.dto.*;
 import com.project.insurance.app.service.RiskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -28,12 +24,14 @@ public class RiskController {
     }
 
     @PostMapping
-    public ResponseEntity<RiskSummaryResponse> create(
+    public ResponseEntity<RiskDetailResponse> create(
             @Valid @RequestBody RiskRequest request) {
+
+        RiskDetailResponse response = riskService.create(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(riskService.create(request));
+                .body(response);
     }
 
     @GetMapping
@@ -48,13 +46,13 @@ public class RiskController {
         return riskService.calculateRisk(request);
     }
     @GetMapping("/{id}")
-    public InsuranceRequirements getById(
+    public RiskDetailResponse getById(
             @PathVariable Long id) {
 
         return riskService.getById(id);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(
+    public ResponseEntity<Void> deleteById(
             @PathVariable Long id) {
 
         riskService.deleteById(id);
@@ -62,7 +60,7 @@ public class RiskController {
         return ResponseEntity.noContent().build();
     }
     @PutMapping("/{id}")
-    public InsuranceRequirements update(
+    public RiskDetailResponse update(
             @PathVariable Long id,
             @Valid @RequestBody RiskRequest request) {
 

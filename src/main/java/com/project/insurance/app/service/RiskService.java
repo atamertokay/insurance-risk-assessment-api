@@ -1,9 +1,6 @@
 package com.project.insurance.app.service;
 
-import com.project.insurance.app.dto.PremiumResponse;
-import com.project.insurance.app.dto.RiskRequest;
-import com.project.insurance.app.dto.RiskResponse;
-import com.project.insurance.app.dto.RiskSummaryResponse;
+import com.project.insurance.app.dto.*;
 import com.project.insurance.app.entity.InsuranceRequirements;
 import com.project.insurance.app.exception.ResourceNotFoundException;
 import com.project.insurance.app.mapper.RiskMapper;
@@ -51,13 +48,13 @@ public class RiskService {
     }
 
     // CREATE
-    public RiskSummaryResponse create(RiskRequest request) {
+    public RiskDetailResponse create(RiskRequest request) {
 
         InsuranceRequirements entity = mapper.toEntity(request);
 
         InsuranceRequirements saved = repository.save(entity);
 
-        return mapper.toSummary(saved);
+        return mapper.toDetail(saved);
     }
 
     // READ ALL (DTO)
@@ -66,11 +63,14 @@ public class RiskService {
     }
 
     // READ BY ID
-    public InsuranceRequirements getById(Long id) {
-        return repository.findById(id)
+    public RiskDetailResponse getById(Long id) {
+
+        InsuranceRequirements entity = repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Risk kaydı bulunamadı. ID: " + id));
+
+        return mapper.toDetail(entity);
     }
 
     // DELETE
@@ -84,7 +84,9 @@ public class RiskService {
     }
 
     // UPDATE
-    public InsuranceRequirements update(Long id, RiskRequest request) {
+    public RiskDetailResponse update(
+            Long id,
+            RiskRequest request) {
 
         InsuranceRequirements entity = repository.findById(id)
                 .orElseThrow(() ->
@@ -97,7 +99,9 @@ public class RiskService {
         entity.setIncome(request.getIncome());
         entity.setChronicDisease(request.getChronicDisease());
 
-        return repository.save(entity);
+        InsuranceRequirements updated = repository.save(entity);
+
+        return mapper.toDetail(updated);
     }
 
     // RISK CALCULATION
