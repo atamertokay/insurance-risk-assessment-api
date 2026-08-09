@@ -18,9 +18,6 @@ public interface RiskMapper {
     @Mapping(target = "id", ignore = true)
     InsuranceRequirements toEntity(RiskRequest request);
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "age", source = "age")
-    @Mapping(target = "bmi", source = "bmi")
     RiskSummaryResponse toSummary(InsuranceRequirements entity);
 
     List<RiskSummaryResponse> toSummaryList(List<InsuranceRequirements> entities);

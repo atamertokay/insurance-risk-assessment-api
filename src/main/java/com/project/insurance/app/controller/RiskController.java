@@ -3,6 +3,7 @@ package com.project.insurance.app.controller;
 import com.project.insurance.app.dto.*;
 import com.project.insurance.app.service.RiskService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,21 @@ public class RiskController {
     @GetMapping
     public List<RiskSummaryResponse> getAll() {
         return riskService.getAll();
+    }
+
+    @GetMapping("/page")
+    public Page<RiskSummaryResponse> getAllPaged(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        return riskService.getAllPaged(
+                page,
+                size,
+                sortBy,
+                direction
+        );
     }
 
     @PostMapping("/calculate")

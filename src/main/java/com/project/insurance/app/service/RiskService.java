@@ -6,6 +6,10 @@ import com.project.insurance.app.exception.ResourceNotFoundException;
 import com.project.insurance.app.mapper.RiskMapper;
 import com.project.insurance.app.model.RiskLevel;
 import com.project.insurance.app.repository.InsuranceRequirementsRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -60,6 +64,28 @@ public class RiskService {
     // READ ALL (DTO)
     public List<RiskSummaryResponse> getAll() {
         return mapper.toSummaryList(repository.findAll());
+    }
+
+    public Page<RiskSummaryResponse> getAllPaged(
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
+
+        Sort sort;
+
+        if (direction.equalsIgnoreCase("desc")) {
+            sort = Sort.by(sortBy).descending();
+        } else {
+            sort = Sort.by(sortBy).ascending();
+        }
+
+        Pageable pageable =
+                PageRequest.of(page, size, sort);
+
+        return repository
+                .findAll(pageable)
+                .map(mapper::toSummary);
     }
 
     // READ BY ID
