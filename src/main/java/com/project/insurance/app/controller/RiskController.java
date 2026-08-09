@@ -59,8 +59,7 @@ public class RiskController {
 
         riskService.deleteById(id);
 
-        return ResponseEntity.ok(
-                "Kayıt başarıyla silindi.");
+        return ResponseEntity.noContent().build();
     }
     @PutMapping("/{id}")
     public InsuranceRequirements update(
