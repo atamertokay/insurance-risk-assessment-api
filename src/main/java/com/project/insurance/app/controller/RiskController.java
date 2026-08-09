@@ -5,7 +5,6 @@ import com.project.insurance.app.dto.RiskRequest;
 import com.project.insurance.app.dto.RiskResponse;
 import com.project.insurance.app.dto.RiskSummaryResponse;
 import com.project.insurance.app.entity.InsuranceRequirements;
-import com.project.insurance.app.mapper.RiskMapper;
 import com.project.insurance.app.service.RiskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -48,7 +48,7 @@ public class RiskService {
                 level,
                 premium
         );
-    };
+    }
 
     // CREATE
     public RiskSummaryResponse create(RiskRequest request) {

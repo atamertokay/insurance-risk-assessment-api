@@ -20,7 +20,7 @@ public class RiskCalculator {
                 + calculateIncomeRisk(income);
 
         return Math.max(0, Math.min(score, 100));
-    };
+    }
 
     private int calculateAgeRisk(Integer age) {
 
@@ -33,7 +33,7 @@ public class RiskCalculator {
         }
 
         return 25;
-    };
+    }
 
     private int calculateSmokingRisk(Boolean smoker) {
 
@@ -43,7 +43,7 @@ public class RiskCalculator {
 
         return 0;
 
-    };
+    }
 
     private int calculateBmiRisk(Double bmi) {
 
@@ -56,14 +56,14 @@ public class RiskCalculator {
         }
 
         return 20;
-    };
+    }
 
     private int calculateDiseaseRisk(Boolean chronicDisease) {
        if (chronicDisease  == true){
            return 25;
        }
        return 0;
-    };
+    }
 
     private int calculateIncomeRisk(Double income) {
 
@@ -76,7 +76,7 @@ public class RiskCalculator {
         }
 
         return 5;
-    };
+    }
 
 }
 
