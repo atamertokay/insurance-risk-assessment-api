@@ -1,11 +1,13 @@
 package com.project.insurance.app.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
+@AllArgsConstructor
 public class ErrorResponse {
 
     private LocalDateTime timestamp;
@@ -16,21 +18,7 @@ public class ErrorResponse {
 
     private Map<String, String> fieldErrors;
 
-    public ErrorResponse(
-            LocalDateTime timestamp,
-            Integer status,
-            String error,
-            String message,
-            String path,
-            Map<String, String> fieldErrors) {
 
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.message = message;
-        this.path = path;
-        this.fieldErrors = fieldErrors;
-    }
     public ErrorResponse(
             LocalDateTime timestamp,
             Integer status,

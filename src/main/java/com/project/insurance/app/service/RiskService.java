@@ -93,11 +93,7 @@ public class RiskService {
                         new ResourceNotFoundException(
                                 "Risk kaydı bulunamadı. ID: " + id));
 
-        entity.setAge(request.getAge());
-        entity.setSmoker(request.getSmoker());
-        entity.setBmi(request.getBmi());
-        entity.setIncome(request.getIncome());
-        entity.setChronicDisease(request.getChronicDisease());
+        mapper.updateEntity(request, entity);
 
         InsuranceRequirements updated = repository.save(entity);
 
