@@ -51,9 +51,13 @@ public class RiskService {
     };
 
     // CREATE
-    public InsuranceRequirements create(RiskRequest request) {
+    public RiskSummaryResponse create(RiskRequest request) {
+
         InsuranceRequirements entity = mapper.toEntity(request);
-        return repository.save(entity);
+
+        InsuranceRequirements saved = repository.save(entity);
+
+        return mapper.toSummary(saved);
     }
 
     // READ ALL (DTO)
@@ -109,7 +113,7 @@ public class RiskService {
 
         RiskLevel level = RiskLevel.fromScore(score);
 
-        // Mapper kullanılabilir (istersen genişletiriz)
+
         return new RiskResponse(score, level);
     }
 

@@ -8,6 +8,7 @@ import com.project.insurance.app.entity.InsuranceRequirements;
 import com.project.insurance.app.mapper.RiskMapper;
 import com.project.insurance.app.service.RiskService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +24,17 @@ public class RiskController {
 
 
 
-    public RiskController(RiskService riskService, RiskMapper mapper) {
+    public RiskController(RiskService riskService) {
         this.riskService = riskService;
     }
 
     @PostMapping
-    public InsuranceRequirements create(@RequestBody RiskRequest request) {
-        return riskService.create(request);
+    public ResponseEntity<RiskSummaryResponse> create(
+            @Valid @RequestBody RiskRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(riskService.create(request));
     }
 
     @GetMapping

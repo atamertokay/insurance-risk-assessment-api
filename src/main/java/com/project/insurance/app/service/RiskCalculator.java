@@ -1,7 +1,6 @@
 package com.project.insurance.app.service;
 
-import com.project.insurance.app.exception.ErrorResponse;
-import com.project.insurance.app.exception.GlobalExceptionHandler;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +19,7 @@ public class RiskCalculator {
                 + calculateDiseaseRisk(chronicDisease)
                 + calculateIncomeRisk(income);
 
-        return score;
+        return Math.max(0, Math.min(score, 100));
     };
 
     private int calculateAgeRisk(Integer age) {
