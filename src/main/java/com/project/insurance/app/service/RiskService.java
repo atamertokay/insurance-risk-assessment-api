@@ -87,7 +87,7 @@ public class RiskService {
         } else if(direction.equalsIgnoreCase("asc")){
             sort = Sort.by(sortBy).ascending();
         }else {
-            throw new IllegalArgumentException("Sort direction must be 'asc' or 'desc'");
+            throw new IllegalArgumentException("Sıralama yönü 'asc' veya 'desc' olmalıdır");
         }
 
         Pageable pageable =
