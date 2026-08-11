@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -77,6 +78,38 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ErrorResponse> handleMethodValidation(
+            HandlerMethodValidationException ex,
+            HttpServletRequest request) {
+
+        Map<String, String> fieldErrors = new HashMap<>();
+
+        ex.getParameterValidationResults()
+                .forEach(result ->
+                        result.getResolvableErrors()
+                                .forEach(error ->
+                                        fieldErrors.put(
+                                                result.getMethodParameter()
+                                                        .getParameterName(),
+                                                error.getDefaultMessage()
+                                        )
+                                )
+                );
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation Error",
+                "Request parameter validation failed",
+                request.getRequestURI(),
+                fieldErrors
+        );
+
+        return ResponseEntity
+                .badRequest()
                 .body(error);
     }
 }

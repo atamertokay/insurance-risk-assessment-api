@@ -9,13 +9,12 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-@Validated
+
 @RestController
 @RequestMapping("/api/risk")
 public class RiskController {
@@ -37,11 +36,6 @@ public class RiskController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
-    }
-
-    @GetMapping
-    public List<RiskSummaryResponse> getAll() {
-        return riskService.getAll();
     }
 
     @GetMapping("/page")

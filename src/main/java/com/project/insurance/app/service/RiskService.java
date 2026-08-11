@@ -61,11 +61,6 @@ public class RiskService {
         return mapper.toDetail(saved);
     }
 
-
-    public List<RiskSummaryResponse> getAll() {
-        return mapper.toSummaryList(repository.findAll());
-    }
-
     public Page<RiskSummaryResponse> getAllPaged(
             int page,
             int size,
