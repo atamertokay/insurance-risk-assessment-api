@@ -3,15 +3,19 @@ package com.project.insurance.app.controller;
 import com.project.insurance.app.dto.*;
 import com.project.insurance.app.service.RiskService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-
+@Validated
 @RestController
 @RequestMapping("/api/risk")
 public class RiskController {
@@ -42,17 +46,22 @@ public class RiskController {
 
     @GetMapping("/page")
     public Page<RiskSummaryResponse> getAllPaged(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction) {
+            @RequestParam(defaultValue = "0")
+            @Min(value = 0, message = "Page 0'dan küçük olamaz")
+            int page,
 
-        return riskService.getAllPaged(
-                page,
-                size,
-                sortBy,
-                direction
-        );
+            @RequestParam(defaultValue = "10")
+            @Min(value = 1, message = "Size en az 1 olmalıdır")
+            @Max(value = 100, message = "Size en fazla 100 olabilir")
+            int size,
+
+            @RequestParam(defaultValue = "id")
+            String sortBy,
+
+            @RequestParam(defaultValue = "asc")
+            String direction) {
+
+        return riskService.getAllPaged(page, size, sortBy, direction);
     }
 
     @PostMapping("/calculate")
@@ -88,7 +97,7 @@ public class RiskController {
     }
     @GetMapping("/age-over/{age}")
     public List<RiskSummaryResponse> getOlderThan(
-            @PathVariable Integer age) {
+            @PathVariable @Min(0) Integer age) {
         return riskService.getOlderThan(age);
     }
     @GetMapping("/smokers")
@@ -97,7 +106,7 @@ public class RiskController {
     }
     @GetMapping("/high-bmi-smokers/{bmi}")
     public List<RiskSummaryResponse> getHighBmiSmokers(
-            @PathVariable Double bmi) {
+            @PathVariable @Positive Double bmi) {
         return riskService.getHighBmiSmokers(bmi);
     }
     @GetMapping("/age/{age}")

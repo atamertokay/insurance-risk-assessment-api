@@ -51,7 +51,7 @@ public class RiskService {
         );
     }
 
-    // CREATE
+
     public RiskDetailResponse create(RiskRequest request) {
 
         InsuranceRequirements entity = mapper.toEntity(request);
@@ -61,7 +61,7 @@ public class RiskService {
         return mapper.toDetail(saved);
     }
 
-    // READ ALL (DTO)
+
     public List<RiskSummaryResponse> getAll() {
         return mapper.toSummaryList(repository.findAll());
     }
@@ -71,13 +71,28 @@ public class RiskService {
             int size,
             String sortBy,
             String direction) {
-
+        if (page < 0) {
+            throw new IllegalArgumentException("Sayfa numarası negatif olamaz");
+        }
+        if (size < 1 || size > 100) {
+            throw new IllegalArgumentException(
+                    "Sayfa boyutu 1 ile 100 arasında olmalıdır"
+            );
+        }
         Sort sort;
-
+        List<String> allowedSortFields =
+                List.of("id", "age", "bmi", "income");
+        if (!allowedSortFields.contains(sortBy)) {
+            throw new IllegalArgumentException(
+                    "Geçersiz sıralama alanı: " + sortBy
+            );
+        }
         if (direction.equalsIgnoreCase("desc")) {
             sort = Sort.by(sortBy).descending();
-        } else {
+        } else if(direction.equalsIgnoreCase("asc")){
             sort = Sort.by(sortBy).ascending();
+        }else {
+            throw new IllegalArgumentException("Sort direction must be 'asc' or 'desc'");
         }
 
         Pageable pageable =
@@ -88,7 +103,7 @@ public class RiskService {
                 .map(mapper::toSummary);
     }
 
-    // READ BY ID
+
     public RiskDetailResponse getById(Long id) {
 
         InsuranceRequirements entity = repository.findById(id)
@@ -99,7 +114,7 @@ public class RiskService {
         return mapper.toDetail(entity);
     }
 
-    // DELETE
+
     public void deleteById(Long id) {
         InsuranceRequirements request = repository.findById(id)
                 .orElseThrow(() ->
@@ -109,7 +124,7 @@ public class RiskService {
         repository.delete(request);
     }
 
-    // UPDATE
+
     public RiskDetailResponse update(
             Long id,
             RiskRequest request) {
@@ -126,7 +141,7 @@ public class RiskService {
         return mapper.toDetail(updated);
     }
 
-    // RISK CALCULATION
+
     public RiskResponse calculateRisk(RiskRequest request) {
 
         int score = riskCalculator.calculateScore(
@@ -143,7 +158,7 @@ public class RiskService {
         return new RiskResponse(score, level);
     }
 
-    // HIGH RISK (entity -> DTO)
+
     public List<RiskSummaryResponse> getHighRiskRequests() {
 
         return mapper.toSummaryList(
@@ -161,7 +176,7 @@ public class RiskService {
         );
     }
 
-    // AGE FILTER (DTO dönüşümlü)
+
     public List<RiskSummaryResponse> getByAge(Integer age) {
 
         if (age < 0) {

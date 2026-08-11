@@ -37,7 +37,7 @@ public class RiskCalculator {
 
     private int calculateSmokingRisk(Boolean smoker) {
 
-        if(smoker == true){
+        if (Boolean.TRUE.equals(smoker)){
             return 25;
         }
 
@@ -59,7 +59,7 @@ public class RiskCalculator {
     }
 
     private int calculateDiseaseRisk(Boolean chronicDisease) {
-       if (chronicDisease  == true){
+        if (Boolean.TRUE.equals(chronicDisease)){
            return 25;
        }
        return 0;
