@@ -60,7 +60,7 @@ public class PremiumCalculatorTest {
         assertEquals(2000.0, premium);
     }
     @Test
-    void shouldReturn1500WhenScoreIs60() {
+    void shouldReturn2000WhenScoreIs60() {
 
         Double premium =
                 premiumCalculator.calculatePremium(60);
@@ -68,7 +68,7 @@ public class PremiumCalculatorTest {
         assertEquals(2000.0, premium);
     }
     @Test
-    void shouldReturn20000WhenScoreIs61() {
+    void shouldReturn30000WhenScoreIs61() {
 
         Double premium =
                 premiumCalculator.calculatePremium(61);
