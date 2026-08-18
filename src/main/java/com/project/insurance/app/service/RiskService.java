@@ -42,7 +42,7 @@ public class RiskService {
         );
         RiskLevel level = RiskLevel.fromScore(score);
 
-        Double premium = premiumCalculator.calculatePremium(score);
+        Double premium = premiumCalculator.calculatePremium(level);
 
         return new PremiumResponse(
                 score,
@@ -67,11 +67,11 @@ public class RiskService {
             String sortBy,
             String direction) {
         if (page < 0) {
-            throw new IllegalArgumentException("Sayfa numarası negatif olamaz");
+            throw new IllegalArgumentException("Page no can't be less than zero");
         }
         if (size < 1 || size > 100) {
             throw new IllegalArgumentException(
-                    "Sayfa boyutu 1 ile 100 arasında olmalıdır"
+                    "Page size must be between 1 and 100"
             );
         }
         Sort sort;
@@ -79,7 +79,7 @@ public class RiskService {
                 List.of("id", "age", "bmi", "income");
         if (!allowedSortFields.contains(sortBy)) {
             throw new IllegalArgumentException(
-                    "Geçersiz sıralama alanı: " + sortBy
+                    "invalid sort field: " + sortBy
             );
         }
         if (direction.equalsIgnoreCase("desc")) {
@@ -87,7 +87,7 @@ public class RiskService {
         } else if(direction.equalsIgnoreCase("asc")){
             sort = Sort.by(sortBy).ascending();
         }else {
-            throw new IllegalArgumentException("Sıralama yönü 'asc' veya 'desc' olmalıdır");
+            throw new IllegalArgumentException("The sort direction must be 'asc' or 'desc'.");
         }
 
         Pageable pageable =
@@ -104,7 +104,7 @@ public class RiskService {
         InsuranceRequirements entity = repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Risk kaydı bulunamadı. ID: " + id));
+                                "No risk record found. ID: " + id));
 
         return mapper.toDetail(entity);
     }
@@ -114,7 +114,7 @@ public class RiskService {
         InsuranceRequirements request = repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Risk kaydı bulunamadı. ID: " + id));
+                                "No risk record found. ID: " + id));
 
         repository.delete(request);
     }
@@ -127,7 +127,7 @@ public class RiskService {
         InsuranceRequirements entity = repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Risk kaydı bulunamadı. ID: " + id));
+                                "No risk record found. ID: " + id));
 
         mapper.updateEntity(request, entity);
 
@@ -175,7 +175,7 @@ public class RiskService {
     public List<RiskSummaryResponse> getByAge(Integer age) {
 
         if (age < 0) {
-            throw new IllegalArgumentException("Yaş negatif olamaz");
+            throw new IllegalArgumentException("Age can't be less than zero");
         }
 
         return mapper.toSummaryList(

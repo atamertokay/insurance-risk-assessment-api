@@ -25,12 +25,6 @@ public class RiskServiceTest {
     @Mock
     private RiskMapper mapper;
 
-    @Mock
-    private RiskCalculator riskCalculator;
-
-    @Mock
-    private PremiumCalculator premiumCalculator;
-
     @InjectMocks
     private RiskService riskService;
 
@@ -88,6 +82,8 @@ public class RiskServiceTest {
         );
         verify(repository)
                 .findById(1L);
+        verify(mapper, never())
+                .toDetail(any());
     }
 
 
