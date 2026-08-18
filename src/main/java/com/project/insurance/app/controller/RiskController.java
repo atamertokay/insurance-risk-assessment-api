@@ -39,7 +39,7 @@ public class RiskController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Applicant created successfully"
             ),
             @ApiResponse(
@@ -67,7 +67,7 @@ public class RiskController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Applicants gets successfully"
+                    description = "Applicants retrieved successfully"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -93,6 +93,8 @@ public class RiskController {
 
         return riskService.getAllPaged(page, size, sortBy, direction);
     }
+
+
     @Operation(
             summary = "Calculate insurance risk",
             description = "Calculates the risk score and risk level."
@@ -113,10 +115,22 @@ public class RiskController {
 
         return riskService.calculateRisk(request);
     }
+
+
     @Operation(
             summary = "Viewing one applicant",
-            description = "Viewing a applicant, who have this id"
+            description = "Viewing a applicant with the specified ID"
     )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Applicant retrieved successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Invalid request"
+            )
+    })
     @GetMapping("/{id}")
     public RiskDetailResponse getById(
             @PathVariable Long id) {
@@ -124,10 +138,21 @@ public class RiskController {
         return riskService.getById(id);
     }
 
+
     @Operation(
             summary = "Deleting an applicant",
-            description = "Deleting an applicant from a database, who have this id"
+            description = "Deleting an applicant from a database with the specified ID"
     )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Applicant deleted successfully"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Invalid request"
+            )
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(
             @PathVariable Long id) {
@@ -136,9 +161,11 @@ public class RiskController {
 
         return ResponseEntity.noContent().build();
     }
+
+
     @Operation(
             summary = "Updating an applicant",
-            description = "Updating an applicant from database, who have this id"
+            description = "Updating an applicant from database with the specified ID"
     )
     @ApiResponses({
             @ApiResponse(
@@ -146,7 +173,7 @@ public class RiskController {
                     description = "Applicant updated successfully"
             ),
             @ApiResponse(
-                    responseCode = "400",
+                    responseCode = "404",
                     description = "Invalid request"
             )
     })
@@ -157,6 +184,8 @@ public class RiskController {
 
         return riskService.update(id, request);
     }
+
+
     @Operation(
             summary = "Viewing high risk applicants",
             description = "Viewing all high risk applicants from database"
@@ -164,7 +193,7 @@ public class RiskController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Applicants gets successfully"
+                    description = "Applicants retrieved successfully"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -175,14 +204,16 @@ public class RiskController {
     public List<RiskSummaryResponse> getHighRiskRequests() {
         return riskService.getHighRiskRequests();
     }
+
+
     @Operation(
             summary = "Viewing older applicants",
-            description = "Viewing applicants, who older than chosing age"
+            description = "Viewing applicants, who older than selected age"
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Applicants gets successfully"
+                    description = "Applicants retrieved successfully"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -194,13 +225,15 @@ public class RiskController {
             @PathVariable @Min(0) Integer age) {
         return riskService.getOlderThan(age);
     }
+
+
     @Operation(
             summary = "Viewing smoker applicant"
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Smoker applicant gets successfully"
+                    description = "Smoker applicant retrieved successfully"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -211,14 +244,16 @@ public class RiskController {
     public List<RiskSummaryResponse> getSmokers() {
         return riskService.getSmokers();
     }
+
+
     @Operation(
             summary = "Viewing high bmi and smoker applicants",
-            description = "Viewing hihg bmi applicants, who use smoke"
+            description = "Viewing hihg BMI applicants who smoke"
     )
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "High bmi and smoker applicant gets successfully"
+                    description = "High BMI and smoker applicant gets successfully"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -230,6 +265,8 @@ public class RiskController {
             @PathVariable @Positive Double bmi) {
         return riskService.getHighBmiSmokers(bmi);
     }
+
+
     @Operation(
             summary = "Viewing applicants of the selected age",
             description = "Viewing list of applicants of the selected age"
@@ -237,7 +274,7 @@ public class RiskController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Applicant gets successfully"
+                    description = "Applicant retrieved successfully"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -249,6 +286,8 @@ public class RiskController {
             @PathVariable Integer age) {
         return riskService.getByAge(age);
     }
+
+
     @Operation(
             summary = "Premium calculation",
             description = "Premium calculation based on entered data"

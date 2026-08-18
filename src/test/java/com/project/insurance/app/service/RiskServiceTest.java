@@ -28,6 +28,12 @@ public class RiskServiceTest {
     @InjectMocks
     private RiskService riskService;
 
+    @Mock
+    private RiskCalculator riskCalculator;
+
+    @Mock
+    private PremiumCalculator premiumCalculator;
+
     @Test
     void shouldReturnRiskDetailWhenIdExists(){
     InsuranceRequirements entity =

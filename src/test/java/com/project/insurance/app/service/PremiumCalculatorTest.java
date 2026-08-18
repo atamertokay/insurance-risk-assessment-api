@@ -20,6 +20,30 @@ public class PremiumCalculatorTest {
     }
 
     @Test
+    void shouldReturnLowRiskPremium() {
+        assertEquals(
+                1500.0,
+                premiumCalculator.calculatePremium(RiskLevel.LOW)
+        );
+    }
+
+    @Test
+    void shouldReturnMediumRiskPremium() {
+        assertEquals(
+                2000.0,
+                premiumCalculator.calculatePremium(RiskLevel.MEDIUM)
+        );
+    }
+
+    @Test
+    void shouldReturnHighRiskPremium() {
+        assertEquals(
+                3000.0,
+                premiumCalculator.calculatePremium(RiskLevel.HIGH)
+        );
+    }
+
+    @Test
     void shouldReturnVeryHighRiskPremium() {
         double premium =
                 premiumCalculator.calculatePremium(RiskLevel.VERY_HIGH);
@@ -34,5 +58,6 @@ public class PremiumCalculatorTest {
                 () -> premiumCalculator.calculatePremium(null)
         );
     }
+
 
 }

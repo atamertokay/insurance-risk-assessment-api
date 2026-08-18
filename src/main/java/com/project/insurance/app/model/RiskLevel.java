@@ -16,10 +16,10 @@ public enum RiskLevel {
             );
         }
 
-        if (score >= 80) return VERY_HIGH;
-        if (score >= 60) return HIGH;
-        if (score >= 40) return MEDIUM;
-        if (score >= 20) return LOW;
+        if (score > 80) return VERY_HIGH;
+        if (score > 60) return HIGH;
+        if (score > 40) return MEDIUM;
+        if (score > 20) return LOW;
         return BASE;
     }
 }

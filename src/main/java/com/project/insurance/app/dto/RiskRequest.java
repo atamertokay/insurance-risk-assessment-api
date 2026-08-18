@@ -35,7 +35,7 @@ public class RiskRequest {
             example = "20000"
     )
     @NotNull(message = "Income is mandatory")
-    @PositiveOrZero(message = "Incaome can't be negative")
+    @PositiveOrZero(message = "Income can't be negative")
     private Double income;
 
     @Schema(

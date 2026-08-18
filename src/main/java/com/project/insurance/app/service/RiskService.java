@@ -31,17 +31,19 @@ public class RiskService {
         this.mapper = mapper;
         this.premiumCalculator = premiumCalculator;
     }
-    public PremiumResponse calculatePremium(
-            RiskRequest request){
-        int score = riskCalculator.calculateScore(
+    private int calculateScore(RiskRequest request) {
+        return riskCalculator.calculateScore(
                 request.getAge(),
                 request.getSmoker(),
                 request.getBmi(),
                 request.getChronicDisease(),
                 request.getIncome()
         );
+    }
+    public PremiumResponse calculatePremium(
+            RiskRequest request){
+        int score = calculateScore(request);
         RiskLevel level = RiskLevel.fromScore(score);
-
         Double premium = premiumCalculator.calculatePremium(level);
 
         return new PremiumResponse(
@@ -138,17 +140,8 @@ public class RiskService {
 
 
     public RiskResponse calculateRisk(RiskRequest request) {
-
-        int score = riskCalculator.calculateScore(
-                request.getAge(),
-                request.getSmoker(),
-                request.getBmi(),
-                request.getChronicDisease(),
-                request.getIncome()
-        );
-
+        int score = calculateScore(request);
         RiskLevel level = RiskLevel.fromScore(score);
-
 
         return new RiskResponse(score, level);
     }
